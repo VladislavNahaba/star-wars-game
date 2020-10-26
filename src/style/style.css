@@ -13,7 +13,7 @@ body {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    background-image: url('~images/background.png');
+    background-image: url('~@images/background.png');
     overflow: hidden;
 }
 .score {
@@ -69,7 +69,7 @@ body {
 .hole:after {
     content: '';
     display: block;
-    background-image: url('~images/sand1.png');
+    background-image: url('~@images/sand1.png');
     background-size: contain;
     position: absolute;
     width: 100%;
@@ -78,7 +78,7 @@ body {
     bottom: -30px;
 }
 .mole {
-    background-image: url('~images/yoda1.png');
+    background-image: url('~@images/yoda1.png');
     position: absolute;
     top: 100%;
     width: 100%;
@@ -86,6 +86,9 @@ body {
     transition: 0.4s;
     background-repeat: no-repeat;
     background-position: bottom;
+}
+.mole.punched {
+    background-image: url('~@images/yoda2.png');
 }
 .mole.small {
     background-size: 60%;

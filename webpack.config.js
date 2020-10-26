@@ -1,5 +1,4 @@
 const path  = require('path');
-const webpack = require('webpack');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const copyWebpackPlugin = require('copy-webpack-plugin');
@@ -62,7 +61,8 @@ module.exports = {
         extensions: ['.js', '.json', '.png', '.jpg', '.svg', '.css'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
-            'images': path.resolve(__dirname, 'src', 'assets', 'images')
+            '@images': path.resolve(__dirname, 'src', 'assets', 'images'),
+            '@music': path.resolve(__dirname, 'src', 'assets', 'music')
         }
     },
     optimization: optimization(),
@@ -80,7 +80,6 @@ module.exports = {
     plugins: [
         new htmlWebpackPlugin({
             template: '../index.html',
-            hash: false,
             minify: {
                 collapseWhitespace: isProd
             }
@@ -92,10 +91,10 @@ module.exports = {
                     from: path.resolve(__dirname, 'src', 'assets', 'images'),
                     to: path.resolve(__dirname, 'dist', 'assets', 'images')
                 },
-                // {
-                //     from: path.resolve(__dirname, 'src', 'assets', 'music'),
-                //     to: path.resolve(__dirname, 'dist', 'assets', 'music')
-                // }
+                {
+                    from: path.resolve(__dirname, 'src', 'assets', 'music'),
+                    to: path.resolve(__dirname, 'dist', 'assets', 'music')
+                }
             ],
         }),
         new miniCssExtractPlugin({
