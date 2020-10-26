@@ -1,4 +1,5 @@
 const path  = require('path');
+const webpack = require('webpack');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const copyWebpackPlugin = require('copy-webpack-plugin');
@@ -8,6 +9,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
+const ASSET_PATH = process.env.ASSET_PATH || '/';
 
 const optimization = () => {
     const config = {
@@ -53,12 +55,14 @@ module.exports = {
     },
     output: {
         filename: filename('js'),
-        path: path.resolve(__dirname, 'dist') 
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: ASSET_PATH
     },
     resolve: {
-        extensions: ['.js', '.json', '.png'],
+        extensions: ['.js', '.json', '.png', '.jpg', '.svg', '.css'],
         alias: {
-            '@': path.resolve(__dirname, 'src')
+            '@': path.resolve(__dirname, 'src'),
+            'images': path.resolve(__dirname, 'src', 'assets', 'images')
         }
     },
     optimization: optimization(),
@@ -76,26 +80,27 @@ module.exports = {
     plugins: [
         new htmlWebpackPlugin({
             template: '../index.html',
+            hash: false,
             minify: {
                 collapseWhitespace: isProd
             }
         }),
         new CleanWebpackPlugin(),
-        // new copyWebpackPlugin({
-        //     patterns: [
-        //         {
-        //             from: path.resolve(__dirname, 'src', 'assets', 'images'),
-        //             to: path.resolve(__dirname, 'dist', 'assets', 'images')
-        //         },
-        //         // {
-        //         //     from: path.resolve(__dirname, 'src', 'assets', 'music'),
-        //         //     to: path.resolve(__dirname, 'dist', 'assets', 'music')
-        //         // }
-        //     ],
-        // }),
+        new copyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, 'src', 'assets', 'images'),
+                    to: path.resolve(__dirname, 'dist', 'assets', 'images')
+                },
+                // {
+                //     from: path.resolve(__dirname, 'src', 'assets', 'music'),
+                //     to: path.resolve(__dirname, 'dist', 'assets', 'music')
+                // }
+            ],
+        }),
         new miniCssExtractPlugin({
             filename: filename('css')
-        })
+        }),
     ],
     module: {
         rules: [
